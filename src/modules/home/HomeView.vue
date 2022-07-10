@@ -2,6 +2,7 @@
 <div class="fondo">
     <v-container 
         class="d-block align-center justify-center">
+   
         <h2 
         class="d-block mx-auto white--text mt-16"
         style="text-align:center"

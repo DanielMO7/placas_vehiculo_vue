@@ -3,15 +3,15 @@
     <v-app-bar app absolute dark class="pb-0">
       <div class="d-flex align-center">
 
-        <!--<v-img
+        <v-img
         class="shrink mr-2"
         width="60"
         src="../assets/car2.png"
-        ></v-img>-->
-        <v-icon
+        ></v-img>
+        <!--<v-icon
         large
-        >directions_car</v-icon>
-        <h2 style="font-size: 31px;">P-CAR</h2>
+        >directions_car</v-icon>-->
+        <h2 style="font-size: 31px;">SERVITECA</h2>
       </div>
       
 
