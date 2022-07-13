@@ -9,7 +9,22 @@
                ">
         Escriba la placa que desea consultar.
       </h2>
-
+      
+      <div v-if="loading">
+      
+      <v-progress-circular
+        :width="3"
+        color="green"
+        indeterminate>
+      </v-progress-circular>
+      
+      </div>
+      <v-progress-circular
+        :width="3"
+        color="green"
+        indeterminate>
+      </v-progress-circular>
+      
       <div class="d-flex justify-center mx-auto mt-9">
             <v-form
               ref="form"
@@ -33,7 +48,9 @@
                       class="code input-placa mt-5 text-center"
                       
                     >
-                    </v-text-field>     
+                    </v-text-field>
+                    </v-col>
+                    <v-col>
                 </v-col>
               </div>
               <v-btn
@@ -71,9 +88,9 @@ export default {
     uppercase() {
       this.placa = this.placa.toUpperCase();
     },
-    mostrarDatos() {
+    async mostrarDatos() {
         if ( this.$refs.form.validate()) {
-            validacionPlacaServices.buscarPlaca({placa : this.placa })
+            await validacionPlacaServices.buscarPlaca({placa : this.placa })
             .then(response =>{
                  //console.log(response.data)
                 if (response.data.length == 0){

@@ -11,7 +11,9 @@
             {{ placa }}
           </h3>
         </v-container>
+      
       </div>
+      
       <h1
         class="white--text mt-9 text-center"
         style="
@@ -53,6 +55,7 @@ export default {
   data: function () {
     return {
       placa: "",
+      loading: true,
       headers: [
         {
           text: "Tipo de Servicio",
@@ -77,6 +80,7 @@ export default {
     this.placa = this.$route.params.placa;
 
     await registroPlacaService.buscarPlaca({ placa: this.placa }).then((response) => {
+      this.loading = false;
       if (response.data.length == 0) {
         Swal.fire({
           icon: "error",
@@ -96,6 +100,7 @@ export default {
             this.$router.push({ name: "home" })
           }
         });
+        
       } else {
         this.datos_placa = response.data;
       }
