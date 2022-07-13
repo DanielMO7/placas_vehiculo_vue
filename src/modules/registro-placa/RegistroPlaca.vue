@@ -2,7 +2,7 @@
   <div class="fondo">
     <v-container class="d-block align-center justify-center">
       <div class="placa d-block mx-auto mt-9">
-        <v-container class="mx-auto">
+        <v-container class="mx-auto xs">
           <h3
             text-transform="uppercase"
             style="font-size: 55px; max-height: 150px"
@@ -73,10 +73,10 @@ export default {
       this.code = this.code.toUpperCase();
     },
   },
-  created() {
+  async created() {
     this.placa = this.$route.params.placa;
 
-    registroPlacaService.buscarPlaca({ placa: this.placa }).then((response) => {
+    await registroPlacaService.buscarPlaca({ placa: this.placa }).then((response) => {
       if (response.data.length == 0) {
         Swal.fire({
           icon: "error",
@@ -119,10 +119,27 @@ h2 {
   width: 400px;
   height: 190px;
   background: url("../../assets/boxConsulta.png");
+  
 }
 .input-placa {
   margin-top: 26px;
   margin-left: 30px;
   margin-right: 26px;
+}
+@media (max-width:500px) {
+    .fondo{
+        background-size: 100% !important;
+        background-repeat: no-repeat ;
+    }
+    .placa{
+        height: 166px !important;
+        background-size: 100% !important;
+    }
+    h2{
+      width: 100% !important;
+    }
+    .container{
+      padding: 7px !important;
+    }
 }
 </style>

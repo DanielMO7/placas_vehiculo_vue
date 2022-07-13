@@ -45,6 +45,7 @@
                 Consultar
               </v-btn>
             </v-form>
+            
       </div>
     </v-container>
   </div>
@@ -98,10 +99,11 @@ export default {
   background: url("../../assets/car-932455_1280.jpg");
 }
 .placa {
-  width: 100%;
+  width: 400px;
   height: 190px;
   background: url("../../assets/boxConsulta.png");
   background-repeat: no-repeat;
+  background-size:100%;
 }
 .input-placa {
   margin-top: 26px;
@@ -117,5 +119,16 @@ export default {
 }
 .code input {
   text-transform: uppercase;
+}
+@media (max-width:500px) {
+    .placa{
+        width: 350px !important;
+    }
+    h2{
+      width: 100% !important;
+    }
+    .container{
+      padding: 7px !important;
+    }
 }
 </style>
