@@ -15,6 +15,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "registro_placa" */ '../modules/registro-placa/RegistroPlaca.vue')
   },
   {
+    path: '/form-placa',
+    name: 'form_placa',
+    component: () => import(/* webpackChunkName: "form_placa" */ '../modules/form-registro/FormPlaca.vue')
+  },
+  {
     path: '/about',
     name: 'about',
     // route level code-splitting

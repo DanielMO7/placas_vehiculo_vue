@@ -13,14 +13,13 @@
         >directions_car</v-icon>-->
         <h2 style="font-size: 31px;">SERVITECA</h2>
       </div>
-      
-
+    
 
       <v-spacer></v-spacer>
 
       <v-btn
-        
         text
+        style="height: 100%"
       >
         <span class="mr-2">Soporte</span>
         <v-icon>support_agent</v-icon>

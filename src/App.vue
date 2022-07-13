@@ -28,3 +28,12 @@ export default {
     }
 };
 </script>
+<style>
+.swal2-popup {
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+.swal2-styled.swal2-confirm{
+  background: #1976d2 !important;
+  background-color: #1976d2 !important;
+}
+</style>
