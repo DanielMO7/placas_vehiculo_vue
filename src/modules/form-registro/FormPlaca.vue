@@ -37,14 +37,6 @@
           item-value="valor_en_codigo_cambio"
           required
         ></v-select>
-
-          <div v-if="this.items_cambio == 1">
-            Ahora me ves
-          </div>
-          <div v-else>
-            Ahora no
-          </div>
-        
         
         <v-text-field
           v-model="name"

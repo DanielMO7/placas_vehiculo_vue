@@ -1,33 +1,34 @@
 <template>
   <div class="fondo">
-    <v-container class="d-block align-center justify-center ">
+    <v-container class="d-block align-center justify-center">
       <div class="placa d-block mx-auto mt-9">
-        <v-form ref="form" v-model="valid" lazy-validation class="">
-          <v-container class="mx-auto">
-            <v-text
-              v-model="placa"
-              @input="uppercase"
-              style="font-size: 55px; max-height: 150px"
-              class="d-block mx-0 justify-center input-placa text-center mt-9"
-            >
-              {{ placa }}
-            </v-text>
-          </v-container>
-        </v-form>
+        <v-container class="mx-auto">
+          <h3
+            text-transform="uppercase"
+            style="font-size: 55px; max-height: 150px"
+            class="d-block mx-0 justify-center input-placa text-center mt-9"
+          >
+            {{ placa }}
+          </h3>
+        </v-container>
       </div>
-      <h1 class="white--text mt-9 text-center"
-        style="text-align: center; 
-               background: black;
-               
-               border-radius: 5px 5px 5px 5px ;
-               ">Información del Vehiculo</h1>
+      <h1
+        class="white--text mt-9 text-center"
+        style="
+          text-align: center;
+          background: black;
+          border-radius: 5px 5px 5px 5px;
+        "
+      >
+        Información del Vehiculo
+      </h1>
       <v-row>
         <v-col>
           <h2 class="white--text mt-9 text-center">Servicios Realizados</h2>
           <v-data-table
             style="border-radius: 0px 0px 5px 5px"
             :headers="headers"
-            :items="desserts"
+            :items="datos_placa"
             hide-default-footer
           ></v-data-table>
         </v-col>
@@ -45,15 +46,12 @@
 </template>
 
 <script>
-import registroPlacaService from "./services/registroPlacaService";
+import registroPlacaService from "../general/services/buscarPlaca";
 import Swal from "sweetalert2";
 
 export default {
   data: function () {
     return {
-      datos_tabla: "",
-      datos: "",
-      valid: "",
       placa: "",
       headers: [
         {
@@ -65,12 +63,9 @@ export default {
         { text: "Fecha del Serivcio", value: "fecha_cambio" },
         { text: "Tipo de Producto ", value: "tipo_producto" },
         { text: "Kilometraje Actual (km)", value: "kilometraje_actual" },
-        {
-          text: "Kilometraje Cambio (km)",
-          value: "kilometraje_cambio_sugerido",
-        },
+        { text: "Kilometraje Cambio (km)",  value: "kilometraje_cambio_sugerido"},
       ],
-      desserts: [],
+      datos_placa: [],
     };
   },
   methods: {
@@ -82,7 +77,7 @@ export default {
     this.placa = this.$route.params.placa;
 
     registroPlacaService.buscarPlaca({ placa: this.placa }).then((response) => {
-    if (response.data.length == 0 && response.data.length == 0) {
+      if (response.data.length == 0) {
         Swal.fire({
           icon: "error",
           title: "Error",
@@ -93,14 +88,16 @@ export default {
           if (result.isConfirmed) {
             Swal.fire(
               "Genial!",
-              "Aqui podras ingrear tu numero de placa",
+              "Aqui podras ingresar tu número de placa.",
               "success",
               this.$router.push({ name: "home" })
             );
+          }else{
+            this.$router.push({ name: "home" })
           }
         });
-      }else{
-        this.desserts = response.data
+      } else {
+        this.datos_placa = response.data;
       }
     });
   },
@@ -112,8 +109,6 @@ export default {
   width: 100%;
   height: 100%;
   background: url("../../assets/car-932455_1280.jpg");
-  /*background: #ecf5fe;*/
-  /*margin-top: -48px;*/
 }
 h2 {
   background: #1976d2;
@@ -129,14 +124,5 @@ h2 {
   margin-top: 26px;
   margin-left: 30px;
   margin-right: 26px;
-}
-</style>
-
-<style scoped>
-</style>
-<style >
-.v-input input {
-  max-height: 70px;
-  text-align: center;
 }
 </style>

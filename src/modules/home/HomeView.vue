@@ -18,19 +18,19 @@
               class=""
               @submit.prevent="mostrarDatos()"
             >
-           
             <div class="placa align-center mx-0"
                 style="width: 400px;">
                 <v-col>
                     <v-text-field
                       v-model="placa"
                       :rules="placaRules"
-                      @input="uppercase"
+                      @keyup="uppercase"
                       autofocus
+                      value="uppercase"
                       required
                       onclick=""
                       style="font-size: 55px; max-height: 150px; margin-top: 15px"
-                      class="input-placa mt-5 text-center"
+                      class="code input-placa mt-5 text-center"
                       
                     >
                     </v-text-field>     
@@ -41,9 +41,8 @@
                 color="success"
                 class="d-block mx-auto mt-16"
                 @click="mostrarDatos"
-                
               >
-                consultar
+                Consultar
               </v-btn>
             </v-form>
       </div>
@@ -53,27 +52,21 @@
 
 <script>
 import Swal from "sweetalert2";
-import validacionPlacaServices from './services/validacionPlacaService'
+import validacionPlacaServices from "../general/services/buscarPlaca";
 
 export default {
-    //:disabled="!validarCampoPlaca"
   data: function () {
     return {
       valid: false,
       placa: "",
-      datos: "",
       placaRules: [
         (v) => !!v || "Por favor, ingrese un número de placa.",
-        (v) =>
-          (v && v.length <= 8) || "La placa no debe tener mas de 8 caracteres.",
-        v => (v && v.length >= 4) || 'La placa debe tener por lo menos 6 caracteres.',
+        (v) => (v && v.length <= 8) || "La placa no debe tener mas de 8 caracteres.",
+        (v) => (v && v.length >= 4) || 'La placa debe tener por lo menos 6 caracteres.',
       ],
     };
   },
   methods: {
-    validate() {
-      this.$refs.form.validate();
-    },
     uppercase() {
       this.placa = this.placa.toUpperCase();
     },
@@ -82,7 +75,7 @@ export default {
             validacionPlacaServices.buscarPlaca({placa : this.placa })
             .then(response =>{
                  //console.log(response.data)
-                if (response.data.length == 0 && response.data.length == 0){
+                if (response.data.length == 0){
                     Swal.fire({
                         icon: "error",
                         title: "Error",
@@ -103,8 +96,6 @@ export default {
   width: 100%;
   height: 100%;
   background: url("../../assets/car-932455_1280.jpg");
-  /*background: #ecf5fe;*/
-  /*margin-top: -48px;*/
 }
 .placa {
   width: 100%;
@@ -117,16 +108,14 @@ export default {
   margin-left: 30px;
   margin-right: 26px;
 }
-</style>
 
-<style scoped>
-.v-input {
-  font-size: 1.2em;
-}
 </style>
 <style >
 .v-input input {
   max-height: 70px;
   text-align: center;
+}
+.code input {
+  text-transform: uppercase;
 }
 </style>
