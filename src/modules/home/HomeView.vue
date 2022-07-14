@@ -10,21 +10,6 @@
         Escriba la placa que desea consultar.
       </h2>
       
-      <div v-if="loading">
-      
-      <v-progress-circular
-        :width="3"
-        color="green"
-        indeterminate>
-      </v-progress-circular>
-      
-      </div>
-      <v-progress-circular
-        :width="3"
-        color="green"
-        indeterminate>
-      </v-progress-circular>
-      
       <div class="d-flex justify-center mx-auto mt-9">
             <v-form
               ref="form"
@@ -46,21 +31,39 @@
                       onclick=""
                       style="font-size: 55px; max-height: 150px; margin-top: 15px"
                       class="code input-placa mt-5 text-center"
-                      
                     >
                     </v-text-field>
-                    </v-col>
-                    <v-col>
-                </v-col>
+                    
+                    <div v-if="loading">
+                      <div class="d-flex mt-16" 
+                        style="
+                          flex-direction: column; 
+                          justify-content: center; 
+                          align-items: center;"
+                          >
+                        <v-progress-circular
+                          :size="45"
+                          :width="6"
+                          color="green"
+                          class=""
+                          indeterminate
+                        >
+                        </v-progress-circular>
+                        <h3 class="green--text">Cargando.</h3>
+                      </div>
+                    </div>
+                    <div v-else>
+                      <v-btn
+                        max-width="374"
+                        color="success"
+                        class="d-block mx-auto mt-16"
+                        @click="mostrarDatos"
+                        >
+                        Consultar
+                    </v-btn>
+                    </div>
+                  </v-col>
               </div>
-              <v-btn
-                max-width="374"
-                color="success"
-                class="d-block mx-auto mt-16"
-                @click="mostrarDatos"
-              >
-                Consultar
-              </v-btn>
             </v-form>
             
       </div>
@@ -77,6 +80,7 @@ export default {
     return {
       valid: false,
       placa: "",
+      loading: false,
       placaRules: [
         (v) => !!v || "Por favor, ingrese un número de placa.",
         (v) => (v && v.length <= 8) || "La placa no debe tener mas de 8 caracteres.",
@@ -89,6 +93,7 @@ export default {
       this.placa = this.placa.toUpperCase();
     },
     async mostrarDatos() {
+      this.loading = true
         if ( this.$refs.form.validate()) {
             await validacionPlacaServices.buscarPlaca({placa : this.placa })
             .then(response =>{
@@ -99,10 +104,13 @@ export default {
                         title: "Error",
                         text: "Esta placa no se encuentra registrada!",
                     })
+                    this.loading = false
                 }else{
                     this.$router.push({ name: 'registro_placa', params: { placa: this.placa } })
                 }
             })
+        }else{
+          this.loading = false
         }
     },
     },

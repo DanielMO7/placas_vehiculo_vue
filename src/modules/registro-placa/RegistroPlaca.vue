@@ -24,25 +24,51 @@
       >
         Información del Vehiculo
       </h1>
-      <v-row>
-        <v-col>
-          <h2 class="white--text mt-9 text-center">Servicios Realizados</h2>
-          <v-data-table
-            style="border-radius: 0px 0px 5px 5px"
-            :headers="headers"
-            :items="datos_placa"
-            hide-default-footer
-          ></v-data-table>
-        </v-col>
-      </v-row>
-      <v-btn
-        max-width="374"
-        color="primary"
-        class="d-block mx-auto mt-10"
-        @click="$router.go(-1)"
-      >
-        Regresar
-      </v-btn>
+      <div v-if="loading">
+        <v-container style="height: 400px;">
+        <v-row
+          class="fill-height"
+          align-content="center"
+          justify="center"
+        >
+          <v-col
+            class="white--text text-subtitle-1 text-center"
+            cols="12"
+          >
+            Cargando los datos del Vehiculo.
+          </v-col>
+          <v-col cols="6">
+            <v-progress-linear
+              color="green accent-4"
+              indeterminate
+              rounded
+              height="6"
+            ></v-progress-linear>
+          </v-col>
+        </v-row>
+      </v-container>
+      </div>
+      <div v-else>
+        <v-row>
+          <v-col>
+            <h2 class="white--text mt-9 text-center">Servicios Realizados</h2>
+            <v-data-table
+              style="border-radius: 0px 0px 5px 5px"
+              :headers="headers"
+              :items="datos_placa"
+              hide-default-footer
+            ></v-data-table>
+          </v-col>
+        </v-row>
+        <v-btn
+          max-width="374"
+          color="primary"
+          class="d-block mx-auto mt-10"
+          @click="$router.go(-1)"
+        >
+          Regresar
+        </v-btn>
+      </div>
     </v-container>
   </div>
 </template>
@@ -55,7 +81,7 @@ export default {
   data: function () {
     return {
       placa: "",
-      loading: true,
+      loading: false,
       headers: [
         {
           text: "Tipo de Servicio",
@@ -63,10 +89,10 @@ export default {
           sortable: false,
           value: "tipo_servicio",
         },
-        { text: "Fecha del Serivcio", value: "fecha_cambio" },
-        { text: "Tipo de Producto ", value: "tipo_producto" },
-        { text: "Kilometraje Actual (km)", value: "kilometraje_actual" },
-        { text: "Kilometraje Cambio (km)",  value: "kilometraje_cambio_sugerido"},
+        { text: "Fecha del Serivcio", value: "fecha_cambio", sortable: false},
+        { text: "Tipo de Producto ", value: "tipo_producto", sortable: false, },
+        { text: "Kilometraje Actual (km)", value: "kilometraje_actual", sortable: false, },
+        { text: "Kilometraje Cambio (km)",  value: "kilometraje_cambio_sugerido", sortable: false,},
       ],
       datos_placa: [],
     };
@@ -77,6 +103,7 @@ export default {
     },
   },
   async created() {
+    this.loading = true
     this.placa = this.$route.params.placa;
 
     await registroPlacaService.buscarPlaca({ placa: this.placa }).then((response) => {
@@ -103,6 +130,7 @@ export default {
         
       } else {
         this.datos_placa = response.data;
+        this.loading = false
       }
     });
   },
@@ -133,8 +161,9 @@ h2 {
 }
 @media (max-width:500px) {
     .fondo{
-        background-size: 100% !important;
+        /*background-size: 100% !important;*/
         background-repeat: no-repeat ;
+        background-color: rgba(0, 0, 0, 0.87);
     }
     .placa{
         height: 166px !important;
@@ -146,5 +175,13 @@ h2 {
     .container{
       padding: 7px !important;
     }
+    .v-select__slot{
+      
+    }
+}
+</style>
+<style>
+@media (max-width:500px) {
+    
 }
 </style>
