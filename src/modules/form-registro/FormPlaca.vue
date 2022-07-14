@@ -1,151 +1,201 @@
 <template>
   <div class="fondo">
-    <v-container class="d-block align-center justify-center ">
-      <v-card>
-        <v-card-text>
-          
-          <v-form
-        ref="form"
-        v-model="valid"
-        lazy-validation
-      >
-
-        <v-text-field
-          v-model="placa"
-          :rules="placaRules"
-          @input="uppercase"
-          label="Placa"
-          required
-        ></v-text-field>
-
-        <v-select
-          v-model="select_tipo_vehiculo"
-          :items="items_vehiculo"
-          :rules="[v => !!v || 'Item is required']"
-          label="Tipo de Vehículo"
-          item-text="nombre_vehiculo"
-          item-value="valor_en_codigo"
-          required
-        ></v-select>
-
-        <v-select
-          v-model="select_tipo_cambio"
-          :items="items_cambio"
-          :rules="[v => !!v || 'Item is required']"
-          label="Tipo de Cambio Realizado"
-          item-text="nombre_cambio"
-          item-value="valor_en_codigo_cambio"
-          required
-        ></v-select>
-        
-        <v-text-field
-          v-model="name"
-          :counter="10"
-          :rules="nameRules"
-          label="Name"
-          required
-        ></v-text-field>
-    
-        <v-text-field
-          v-model="email"
-          :rules="emailRules"
-          label="E-mail"
-          required
-        ></v-text-field>
-
-    
-        <v-checkbox
-          v-model="checkbox"
-          :rules="[v => !!v || 'You must agree to continue!']"
-          label="Do you agree?"
-          required
-        ></v-checkbox>
-    
+    <v-container class="d-block align-center justify-center">
+      <v-card class="text-center mb-5" style="background-color: transparent">
+        <h3 style="background: black; color: white">
+          Seleccione el tipo de Modificacion que desea Registrar.
+        </h3>
+        <br />
         <v-btn
-          :disabled="!valid"
-          color="success"
-          class="mr-4"
-          @click="validate"
+          class="mr-4 mb-4"
+          style="background: #e1c843; color: black"
+          @click="formulario_aceite"
         >
-          Validate
+          Cambio de Aceite
         </v-btn>
-    
         <v-btn
-          color="error"
-          class="mr-4"
-          @click="reset"
+          class="mr-4 mb-4"
+          style="background-color: rgba(0, 0, 0, 0.87); color: white"
+          @click="formulario_llanta"
         >
-          Reset Form
+          Cambio de Llantas
         </v-btn>
-    
-        <v-btn
-          color="warning"
-          @click="resetValidation"
-        >
-          Reset Validation
-        </v-btn>
-      </v-form>
-        </v-card-text>
       </v-card>
-      </v-container>
-    </div>
+      {{ tipo_formulario }}
 
+      <div v-if="tipo_formulario == 1">
+      <!--Formulario para Cambio de Aceite.-->
+        <v-card>
+          <v-container>
+            <h1 class="text-center">Registrar Cambio de Aceite</h1>
+            <v-form
+              ref="form"
+              v-model="valid"
+              lazy-validation
+              @submit.prevent="mostrar()"
+            >
+              <v-text-field
+                v-model="placa"
+                :rules="placaRules"
+                @input="uppercase"
+                label="Placa"
+                required
+              ></v-text-field>
+  
+              <v-select
+                v-model="select_tipo_vehiculo"
+                :items="items_vehiculo"
+                :rules="[(v) => !!v || 'Seleccione una opcion.']"
+                label="Tipo de Vehículo"
+                item-text="nombre_vehiculo"
+                item-value="valor_en_codigo"
+                required
+              ></v-select>
+  
+              <v-select
+                v-model="select_marca_aceite"
+                :items="items_aceite"
+                :rules="[(v) => !!v || 'Seleccione una opcion.']"
+                label="Marca del Aceite"
+                item-text="nombre_aceite"
+                item-value="valor_en_codigo_aceite"
+                required
+              ></v-select>
+
+              <v-text-field
+                v-model="kilometraje_actual"
+                :rules="kilometrajeRules"
+                label="Kilometraje Actual"
+                type="number"
+                required
+              ></v-text-field>
+              <v-btn
+                :disabled="!valid"
+                color="success"
+                class="mr-4"
+                @click="mostrar()"
+              >
+                Guardar
+              </v-btn>
+            </v-form>
+          </v-container>
+        </v-card>
+      </div>
+      <div v-if="tipo_formulario == 2">
+      <!--Formulario para Cambio de Llanta.-->
+        <v-card>
+          <v-container>
+            <h1 class="text-center">Registrar Cambio de Llanta</h1>
+            <v-form
+              ref="form"
+              v-model="valid"
+              lazy-validation
+              @submit.prevent="submit"
+            >
+              <v-text-field
+                v-model="placa"
+                :rules="placaRules"
+                @input="uppercase"
+                label="Placa"
+                required
+              ></v-text-field>
+  
+              <v-select
+                v-model="select_tipo_vehiculo"
+                :items="items_vehiculo"
+                :rules="[(v) => !!v || '']"
+                label="Tipo de Vehículo"
+                item-text="nombre_vehiculo"
+                item-value="valor_en_codigo"
+                required
+              ></v-select>
+  
+              <v-select
+                v-model="select_marca_llanta"
+                :items="items_llanta"
+                :rules="[(v) => !!v || 'Seleccione una opcion.']"
+                label="Marca de la LLanta"
+                item-text="nombre_llanta"
+                item-value="valor_en_codigo_llanta"
+                required
+              ></v-select>
+
+              <v-text-field
+                v-model="kilometraje_actual"
+                :rules="kilometrajeRules"
+                label="Kilometraje Actual"
+                type="number"
+                required
+              ></v-text-field>
+              <v-btn
+                :disabled="!valid"
+                color="success"
+                class="mr-4"
+                @click="submit"
+              >
+                Guardar
+              </v-btn>
+            </v-form>
+          </v-container>
+        </v-card>
+      </div>
+    </v-container>
+  </div>
 </template>
 
 <script>
 //import registroPlacaService from "./services/registroPlacaService";
 //import Swal from "sweetalert2";
 
-  export default {
-    data: () => ({
-      valid: true,
-      name: '',
-      nameRules: [
-        v => !!v || 'Name is required',
-        v => (v && v.length <= 10) || 'Name must be less than 10 characters',
-      ],
-      email: '',
-      emailRules: [
-        v => !!v || 'E-mail is required',
-        v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-      ],
-      placa: '',
-      placaRules: [
-        v => !!v || 'E-mail is required',
-      ],
-      select_tipo_vehiculo: null,
-      items_vehiculo: [ 
-        {nombre_vehiculo: 'Automovil', valor_en_codigo: 1},
-        {nombre_vehiculo: 'Motocicleta', valor_en_codigo: 2}
-      ],
-      select_tipo_cambio: null,
-      items_cambio: [ 
-        {nombre_cambio: 'Cambio de Aceite', valor_en_codigo_cambio: 1},
-        {nombre_cambio: 'Cambio de Llanta', valor_en_codigo_cambio: 2}
-      ],
-      value: [],
+export default {
+  data: () => ({
+    valid: true,
+    tipo_formulario: false,
 
-      checkbox: false,
-    }),
+    placa: "",
+    placaRules: [(v) => !!v || "Ingrese la placa de su vehículo."],
+    select_tipo_vehiculo: "",
+    items_vehiculo: [
+      { nombre_vehiculo: "Automovil", valor_en_codigo: 1 },
+      { nombre_vehiculo: "Motocicleta", valor_en_codigo: 2 },
+    ],
+    select_marca_aceite: "",
+    items_aceite: [
+      { nombre_aceite: "Aceite 10w", valor_en_codigo_aceite: 1 },
+      { nombre_aceite: "Diesel", valor_en_codigo_aceite: 2 },
+    ],
+    select_marca_llanta: "",
+    items_llanta: [
+      { nombre_llanta: "Continental", valor_en_codigo_llanta: 1 },
+      { nombre_llanta: "Diesel", valor_en_codigo_llanta: 2 },
+    ],
+    kilometraje_actual: "",
+    kilometrajeRules: [(v) => !!v || "Ingrese el kilometraje actual del vehículo."],
+    value: [],
 
-    methods: {
-      validate () {
+    checkbox: false,
+  }),
+
+  methods: {
+    /*validate () {
         this.$refs.form.validate()
-      },
-      reset () {
-        this.$refs.form.reset()
-      },
-      resetValidation () {
-        this.$refs.form.resetValidation()
-      },
-      uppercase() {
+      },*/
+    uppercase() {
       this.placa = this.placa.toUpperCase();
-      },
     },
-    updated(){
-      console.log(this.items)
+    mostrar() {
+      console.log(this.select_tipo_cambio);
     },
-  };
+    formulario_aceite() {
+      this.tipo_formulario = 1;
+    },
+    formulario_llanta() {
+      this.tipo_formulario = 2;
+    },
+    submit(){
+    }
+  },
+};
 </script>
 
 <style scoped>
@@ -153,26 +203,5 @@
   width: 100%;
   height: 100%;
   background: url("../../assets/car-932455_1280.jpg");
-  /*background: #ecf5fe;*/
-  /*margin-top: -48px;*/
-}
-h2 {
-  background: #1976d2;
-  margin-top: 35px;
-  border-radius: 5px 5px 0px 0px;
-}
-.placa {
-  width: 400px;
-  height: 190px;
-  background: url("../../assets/boxConsulta.png");
-}
-.input-placa {
-  margin-top: 26px;
-  margin-left: 30px;
-  margin-right: 26px;
 }
 </style>
-
-<style scoped>
-</style>
-
