@@ -160,8 +160,8 @@ export default {
     formulario_llanta() {
       this.tipo_formulario = 2;
     },
-    enviarDatos(){
-      if(this.tipo_formulario == 1){
+    enviarDatos() {
+      /*if(this.tipo_formulario == 1){
         // Datos Cambio de Aceite
         var datos = buscarPlaca({
           placa : this.placa, 
@@ -180,15 +180,13 @@ export default {
           marca_llanta: this.select_marca_llanta,
           kilometraje: this.kilometraje_actual,
           })
-      }
+      }*/
     },
-
   },
   // Quita los espacios blancos que se encuentren en el input de la placa.
-  updated(){
-    this.placa = this.placa.replace(/ /g, ""); 
+  updated() {
+    this.placa = this.placa.replace(/ /g, "");
   },
-
 };
 </script>
 
@@ -203,7 +201,7 @@ export default {
   height: 80px;
   background: url("../../assets/llanta.png");
   background-repeat: no-repeat;
-  background-size:100%;
+  background-size: 100%;
 }
 .rotate-img {
   animation-name: rotate-gear;
@@ -222,7 +220,7 @@ export default {
 }
 </style>
 <style>
-  .v-input input {
-  text-align:start !important;
+.v-input input {
+  text-align: start !important;
 }
 </style>

@@ -122,13 +122,17 @@ export default {
   width: 100%;
   height: 100%;
   background: url("../../assets/car-932455_1280.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 .placa {
   width: 400px;
   height: 190px;
   background: url("../../assets/boxConsulta.png");
   background-repeat: no-repeat;
-  background-size:100%;
+  background-size: 100%;
+  
 }
 .input-placa {
   margin-top: 26px;
